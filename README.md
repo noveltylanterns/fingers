@@ -72,4 +72,4 @@ For more information, read the [Draft Specification](fingers-protocol-draft.md).
 
 ## Development
 
-This draft is meant to be simple and easy to evolve. Much like finger's [RFC 1288](https://datatracker.ietf.org/doc/html/rfc1288), the goal here is a small, readable protocol document that people can independently implement without needing a large software stack.
+This draft is meant to be simple and easy to evolve. Much like Finger's [RFC 1288](https://datatracker.ietf.org/doc/html/rfc1288), the goal here is a small, readable protocol document that people can independently implement without needing a large software stack.
