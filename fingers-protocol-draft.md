@@ -256,11 +256,7 @@ What appears in the URI is what is parsed.
 
 ## 13. Path and Target Mapping
 
-The path is interpreted positionally.
-
-The final path segment is the target.
-
-Any earlier path segments are emitted before it using `@` syntax.
+The path is interpreted positionally. The final path segment is the target.
 
 Path segments are emitted in reverse order using @ syntax to preserve compatibility with legacy Finger forwarding conventions, where the chain reads right-to-left (e.g., user@host1@host2):
 - `fingers://example.com` maps to `<CRLF>`
@@ -269,6 +265,7 @@ Path segments are emitted in reverse order using @ syntax to preserve compatibil
 - `fingers://example.com/host2/host1/user` maps to `user@host1@host2<CRLF>`
 
 This specification assigns no required meaning to those earlier segments beyond syntax. A server may interpret that text however it wants. One server may treat it as a forwarding chain. Another may treat it as a local taxonomy or lookup key. Both are valid.
+
 
 ## 14. Flags
 
@@ -382,7 +379,7 @@ A server may return:
 
 All are valid.
 
-## 17 Implementation Freedom
+## 17. Implementation Freedom
 
 This protocol only defines the externally visible syntax and transport behavior.
 
@@ -399,7 +396,7 @@ A server may produce response text from:
 
 This specification does not require any particular storage model or backend design.
 
-These rules also appliy to malformed, unsupported, or unsuccessful requests. Since errors are just a plaintext response, and the daemon responds in plaintext anyways, how it chooses to respond is beyond the scope of the protocol. A server may:
+These rules also apply to malformed, unsupported, or unsuccessful requests. Since the protocol has no error format and all responses are plaintext, how the daemon handles them is beyond the scope of this specification. A server may:
 
 - return ordinary plaintext output
 - return a not-found style response
