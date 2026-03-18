@@ -45,25 +45,25 @@ This spec is intended to enable Finger-style passing of encrypted plaintext data
 #### Command:
 
 ```text
-fingers alice@example.com
-fingers alice@path@example.com
-fingers /PLAN /mode=full alice@example.com
+fingers user@hostname.com
+fingers user@path@hostname.com
+fingers /FLAG /flag2=variable user@hostname.com
 ```
 
 #### URI:
 
 ```text
-fingers://example.com/alice
-fingers://example.com/path/alice
-fingers://example.com/alice?PLAN&mode=full
+fingers://hostname.com/user
+fingers://hostname.com/path/user
+fingers://hostname.com/user?FLAG&flag2=variable
 ```
 
 #### Request Text:
 
 ```text
-alice<CRLF>
-alice@path<CRLF>
-/PLAN /mode=full alice<CRLF>
+user<CRLF>
+user@path<CRLF>
+/FLAG /flag2=variable user<CRLF>
 ```
 
 For more information, read the [Draft Specification](fingers-protocol-draft.md).
