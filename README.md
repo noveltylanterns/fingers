@@ -45,18 +45,24 @@ This spec is intended to enable Finger-style passing of encrypted plaintext data
 #### Command:
 
 ```text
+fingers alice@example.com
+fingers alice@path@example.com
 fingers /PLAN /mode=full alice@example.com
 ```
 
 #### URI:
 
 ```text
+fingers://example.com/alice
+fingers://example.com/path/alice
 fingers://example.com/alice?PLAN&mode=full
 ```
 
 #### Request Text:
 
 ```text
+alice<CRLF>
+alice@path<CRLF>
 /PLAN /mode=full alice<CRLF>
 ```
 
