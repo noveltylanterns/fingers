@@ -4,11 +4,13 @@ A small TLS-only plaintext request/response protocol inspired by [Finger](https:
 
 You can read a working draft of the `fingers://` specification at [fingers-protocol-draft.md](fingers-protocol-draft.md).
 
+
 ## Status
 
 This is an early draft.
 
 The protocol is intentionally small and syntax-focused. It defines transport, request syntax, URI mapping, and response framing. It does not require any specific backend model.
+
 
 ## Core ideas
 
@@ -22,6 +24,7 @@ The protocol is intentionally small and syntax-focused. It defines transport, re
 - URI scheme: `fingers://`
 - default port: `8179`
 
+
 ## Scope
 
 This draft standardizes only the protocol surface:
@@ -34,13 +37,6 @@ This draft standardizes only the protocol surface:
 
 It does not standardize server internals. A conforming daemon may use plain files, scripts, CGI, templates, databases, or any other local mechanism.
 
-## Licensing
-
-The specification text in this repository is licensed under **Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)**.
-
-That license applies to the spec text and derivative documentation. It does not automatically apply to independently written clients or servers that implement the protocol.
-
-If reference code is added later, it can be licensed separately.
 
 ## Notes
 
@@ -64,4 +60,4 @@ Request sent:
 
 ## Development
 
-This draft is meant to be simple and easy to evolve. The goal is a small, readable protocol document that people can implement without needing a large software stack.
+This draft is meant to be simple and easy to evolve. Much like finger's [RFC 1288](https://datatracker.ietf.org/doc/html/rfc1288), the goal here is a small, readable protocol document that people can independently implement without needing a large software stack.
