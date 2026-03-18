@@ -126,7 +126,7 @@ This includes:
 - request text
 - response text
 
-However, some fields are syntactically restricted to smaller character sets.
+However, some fields are syntactically restricted to smaller character sets *(See **Section 11: Allowed Characters** for more info)*.
 
 ## 7. Request Syntax
 
