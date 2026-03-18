@@ -46,7 +46,7 @@ It does not standardize server internals. A conforming daemon may use plain file
 
 ## Examples
 
-An array of flags, variables & connection details would correlate across a fingers:// ecosystem like this:
+An array of flags, variables & connection details would correlate across a `fingers://` ecosystem like this:
 
 
 #### Command:
