@@ -55,8 +55,8 @@ Examples:
 - `fingers://example.com:8179`
 - `fingers://example.com:9443`
 - `fingers://example.com/alice`
-- `fingers://example.com/alice@example.net`
-- `fingers://example.com/alice@example.net@example.org?PLAN`
+- `fingers://example.net/example.com/alice`
+- `fingers://example.org/example.net/example.com/alice?PLAN`
 
 ## 4. Authority Host and TLS Scope
 
@@ -74,13 +74,13 @@ Everything after the authority host is request text only.
 
 Example:
 
-`fingers://relay.example/alice@example.net@example.org`
+`fingers://relay.example/inner.example/alice`
 
 In this URI:
 
 - `relay.example` is the network endpoint
 - `relay.example` is the TLS identity scope
-- `alice@example.net@example.org` is the request target
+- `inner.example` and `alice` are request components
 
 ## 5. TLS Requirements
 
@@ -127,7 +127,7 @@ This includes:
 - request text
 - response text
 
-However, some fields are syntactically restricted to smaller character sets. See **Section 11** for more information.
+However, some fields are syntactically restricted to smaller character sets.
 
 ## 7. Request Syntax
 
@@ -136,20 +136,19 @@ A request is one line of text terminated by CRLF.
 A request contains:
 
 - zero or more flags
-- optionally one target
+- optionally one target expression
 
-Flags always come before the target.
+Flags always come before the target expression.
 
 The server reads one request line only.
 
 Examples:
 
 - empty request: ``
-- target only: `alice`
-- target with one relay: `alice@example.net`
-- target with two relays: `alice@example.net@example.org`
-- flag and target: `/PLAN alice`
-- multiple flags and target: `/PLAN /mode=full alice@example.net`
+- target only: `alice@example.com`
+- target with two relays: `alice@example.com@example.net`
+- flag and target: `/PLAN alice@example.com`
+- multiple flags and target: `/PLAN /mode=full alice@example.com@example.net`
 - flags only: `/PLAN /index=users`
 
 ## 8. Request Terminator
@@ -186,12 +185,12 @@ These are equivalent:
 - `fingers://example.com`
 - `fingers://example.com/`
 
-When a target is present, the path contains exactly one target component.
+When a target is present, trailing slashes do not change meaning.
 
 These are equivalent:
 
-- `fingers://example.com/alice@example.net`
-- `fingers://example.com/alice@example.net/`
+- `fingers://example.net/example.com/alice`
+- `fingers://example.net/example.com/alice/`
 
 Extra trailing slashes do not create extra empty path segments.
 
@@ -215,9 +214,9 @@ If a port is present, it must be decimal digits only.
 
 Example: `:8179`
 
-### 11.3 Target
+### 11.3 Path Segments
 
-The target may contain only:
+Path segments may contain only:
 
 - letters
 - digits
@@ -225,19 +224,6 @@ The target may contain only:
 - underscore (`_`)
 - period (`.`)
 - tilde (`~`)
-- at sign (`@`)
-
-The at sign is a literal relay-chain operator inside the target.
-
-A target must not begin with `@` and must not end with `@`.
-
-Empty relay components are invalid.
-
-Examples:
-
-- `alice`
-- `alice@example.net`
-- `alice@example.net@example.org`
 
 ### 11.4 Flag Names
 
@@ -264,7 +250,7 @@ Percent-encoding is not part of this specification.
 The percent sign (`%`) is not valid in:
 
 - authority hosts
-- targets
+- path segments
 - flag names
 - flag values
 
@@ -274,22 +260,36 @@ What appears in the URI is what is parsed.
 
 ## 13. Target and Relay Mapping
 
-The URI path, if present, contains one target string.
+If a target is present, the final path segment is the terminal target.
 
-That target string is emitted directly into the request line after any flags.
+Any earlier path segments are relay hosts.
 
-Relay chaining, if used, is expressed inside the target using `@`, following the original Finger model.
+The authority host is always the outermost relay host.
+
+The emitted target expression is built in this exact order:
+
+1. start with the final path segment
+2. append each earlier path segment from right to left, separated by `@`
+3. append the authority host last, separated by `@`
+
+In other words:
+
+- the final path segment is first in the emitted target expression
+- the authority host is last in the emitted target expression
 
 Examples:
 
-- `fingers://example.com` maps to ``
-- `fingers://example.com/alice` maps to `alice`
-- `fingers://example.com/alice@example.net` maps to `alice@example.net`
-- `fingers://example.com/alice@example.net@example.org` maps to `alice@example.net@example.org`
+- `fingers://example.com/alice` maps to `alice@example.com`
+- `fingers://example.net/example.com/alice` maps to `alice@example.com@example.net`
+- `fingers://example.org/example.net/example.com/alice` maps to `alice@example.com@example.net@example.org`
 
-This specification assigns no required meaning to relay chains beyond syntax.
+The authority host is always the network endpoint and TLS peer.
 
-A server may treat `alice@example.net@example.org` as an actual relay request.
+The relay chain in the emitted request line does not change the actual network destination.
+
+This specification defines only the syntax of this mapping.
+
+A server may treat the resulting target expression as an actual relay request.
 
 Another server may treat it as a local lookup key.
 
@@ -299,7 +299,7 @@ Both are valid.
 
 A request may include flags.
 
-Flags are modifiers placed before the target in the request line.
+Flags are modifiers placed before the target expression in the request line.
 
 Two forms are allowed:
 
@@ -318,7 +318,7 @@ Example:
 
 maps to:
 
-`/PLAN alice`
+`/PLAN alice@example.com`
 
 ### 14.2 Variable Flag
 
@@ -332,7 +332,7 @@ Example:
 
 maps to:
 
-`/mode=full alice`
+`/mode=full alice@example.com`
 
 ### 14.3 Multiple Flags
 
@@ -340,11 +340,11 @@ Multiple flags are written in the URI query by joining them with `&`.
 
 Example:
 
-`fingers://example.com/alice@example.net?PLAN&mode=full`
+`fingers://example.net/example.com/alice?PLAN&mode=full`
 
 maps to:
 
-`/PLAN /mode=full alice@example.net`
+`/PLAN /mode=full alice@example.com@example.net`
 
 ### 14.4 Duplicate Flags
 
@@ -447,41 +447,51 @@ URI: `fingers://example.com`
 
 Request sent: ``
 
-### Target request
+### Simple request
 
 URI: `fingers://example.com/alice`
 
-Request sent: `alice`
+Request sent: `alice@example.com`
 
-### Relay request
+### One inner relay
 
-URI: `fingers://example.com/alice@example.net`
+URI: `fingers://example.net/example.com/alice`
 
-Request sent: `alice@example.net`
+Request sent: `alice@example.com@example.net`
 
-### Multi-relay request
+### Two inner relays
 
-URI: `fingers://example.com/alice@example.net@example.org`
+URI: `fingers://example.org/example.net/example.com/alice`
 
-Request sent: `alice@example.net@example.org`
+Request sent: `alice@example.com@example.net@example.org`
 
 ### Bare flag
 
 URI: `fingers://example.com/alice?PLAN`
 
-Request sent: `/PLAN alice`
+Request sent: `/PLAN alice@example.com`
 
 ### Variable flag
 
 URI: `fingers://example.com/alice?mode=full`
 
-Request sent: `/mode=full alice`
+Request sent: `/mode=full alice@example.com`
 
 ### Multiple flags with relay target
 
-URI: `fingers://example.com/alice@example.net?PLAN&mode=full`
+URI: `fingers://example.net/example.com/alice?PLAN&mode=full`
 
-Request sent: `/PLAN /mode=full alice@example.net`
+Request sent: `/PLAN /mode=full alice@example.com@example.net`
+
+### Mapping pattern
+
+General pattern:
+
+`fingers://relayN/.../relay2/relay1/target`
+
+maps to:
+
+`target@relay1@relay2@...@relayN`
 
 ## 19. Summary
 
