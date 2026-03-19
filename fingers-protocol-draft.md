@@ -226,6 +226,8 @@ Path segments may contain only:
 - period (`.`)
 - tilde (`~`)
 
+The at sign (`@`) is not valid inside an individual path segment. It is inserted only by the mapping rules in Section 13 when constructing the emitted target expression.
+
 ### 11.4 Flag Names
 
 Flag names may contain only:
