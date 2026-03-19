@@ -72,3 +72,6 @@ For more information, read the [Draft Specification](fingers-protocol-draft.md).
 ## Development
 
 This draft is meant to be simple and easy to evolve. Much like Finger's [RFC 1288](https://datatracker.ietf.org/doc/html/rfc1288), the goal here is a small, readable protocol document that people can independently implement without needing a large software stack.
+
+The [fingered](https://github.com/noveltylanterns/fingered), on top of functioning as a traditional `finger://` daemon, is also to be considered the Reference Implementation of the `fingers://` protocol, and is equally a work-in-progress.
+
