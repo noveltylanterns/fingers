@@ -330,7 +330,7 @@ maps to:
 
 A variable flag looks like `/flag=value`.
 
-URI form: `?flag=value<CRLF>`
+URI form: `?flag=value`
 
 Example:
 
@@ -388,7 +388,7 @@ Examples:
 - `fingers://example.com`
 - `fingers://example.com/`
 
-Both map to ``.
+Both map to `<CRLF>`
 
 A flag-only request is also valid.
 
