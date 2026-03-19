@@ -46,7 +46,6 @@ This spec is intended to enable Finger-style passing of encrypted plaintext data
 
 ```text
 fingers user@hostname.com
-fingers user@path@hostname.com
 fingers /FLAG /flag2=variable user@hostname.com
 ```
 
@@ -54,7 +53,6 @@ fingers /FLAG /flag2=variable user@hostname.com
 
 ```text
 fingers://hostname.com/user
-fingers://hostname.com/path/user
 fingers://hostname.com/user?FLAG&flag2=variable
 ```
 
@@ -62,7 +60,6 @@ fingers://hostname.com/user?FLAG&flag2=variable
 
 ```text
 user<CRLF>
-user@path<CRLF>
 /FLAG /flag2=variable user<CRLF>
 ```
 
