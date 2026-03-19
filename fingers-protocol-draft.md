@@ -131,7 +131,7 @@ However, some fields are syntactically restricted to smaller character sets.
 
 ## 7. Request Syntax
 
-A request is one line of text terminated by CRLF.
+A request is one line of text terminated by `<CRLF>`.
 
 A request contains:
 
@@ -144,12 +144,13 @@ The server reads one request line only.
 
 Examples:
 
-- empty request: ``
-- target only: `alice@example.com`
-- target with two relays: `alice@example.com@example.net`
-- flag and target: `/PLAN alice@example.com`
-- multiple flags and target: `/PLAN /mode=full alice@example.com@example.net`
-- flags only: `/PLAN /index=users`
+- empty request: `<CRLF>`
+- target only: `alice<CRLF>`
+- target with one relay: `alice@example.com<CRLF>`
+- target with two relays: `alice@example.com@example.net<CRLF>`
+- flag and target: `/PLAN alice<CRLF>`
+- multiple flags and target w/ two relays: `/PLAN /mode=full alice@example.com@example.net<CRLF>`
+- flags only: `/PLAN /index=users<CRLF>`
 
 ## 8. Request Terminator
 
