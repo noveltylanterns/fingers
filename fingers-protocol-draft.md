@@ -263,6 +263,8 @@ What appears in the URI is what is parsed.
 
 ## 13. Target and Relay Mapping
 
+**NOTE: ChatGPT generated this. It doesn't look quite right to us as far as relay mapping worked in the original finger:// protocol. There is more research to be done on this section before it can be considered close.**
+
 If no target path is present, the emitted request is empty.
 
 If a target is present, the final path segment is the terminal target.
