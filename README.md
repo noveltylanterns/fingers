@@ -11,6 +11,8 @@ This is an early draft.
 
 The protocol is intentionally small and syntax-focused. It defines transport, request syntax, URI mapping, and response framing. It does not require any specific backend model.
 
+Ignore anything about relays. That's one of the last ChatGPT-placeholder pieces that I still gotta research more about first.
+
 
 ## Core ideas
 
